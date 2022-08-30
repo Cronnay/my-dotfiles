@@ -158,6 +158,11 @@ lvim.plugins = {
   },
   {
     'editorconfig/editorconfig-vim'
+  },
+  {
+    'pbrisbin/vim-mkdir'
+  }, {
+    'APZelos/blamer.nvim'
   }
 }
 lvim.colorscheme = "vscode"
