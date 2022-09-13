@@ -10,6 +10,7 @@ an executable
 -- general
 lvim.log.level = "warn"
 lvim.format_on_save = true
+
 -- to disable icons and use a minimalist setup, uncomment the following
 -- lvim.use_icons = false
 
@@ -19,6 +20,8 @@ lvim.leader = "space"
 lvim.keys.normal_mode["<C-s>"] = ":w<cr>"
 vim.keymap.set("n", "<C-w>", ":BufferKill<CR>")
 vim.keymap.set("n", "<space>de", ":call delete(expand('%')) | bdelete!<CR>")
+vim.keymap.set("n", "H", ":bprev<CR>")
+vim.keymap.set("n", "L", ":bnext<CR>")
 -- unmap a default keymapping
 -- vim.keymap.del("n", "<C-Up>")
 -- override a default keymapping
@@ -163,10 +166,11 @@ lvim.plugins = {
     'pbrisbin/vim-mkdir'
   }, {
     'APZelos/blamer.nvim'
-  }
+  },
 }
 lvim.colorscheme = "vscode"
-
+vim.opt.nu = true
+vim.opt.relativenumber = true
 -- Autocommands (https://neovim.io/doc/user/autocmd.html)
 -- vim.api.nvim_create_autocmd("BufEnter", {
 --   pattern = { "*.json", "*.jsonc" },
