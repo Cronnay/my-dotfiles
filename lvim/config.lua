@@ -12,7 +12,7 @@ lvim.log.level = "warn"
 lvim.format_on_save = true
 
 -- to disable icons and use a minimalist setup, uncomment the following
--- lvim.use_icons = false
+lvim.use_icons = true
 
 -- keymappings [view all the defaults by pressing <leader>Lk]
 lvim.leader = "space"
@@ -175,8 +175,8 @@ lvim.plugins = {
   {
     'pbrisbin/vim-mkdir'
   }, {
-    'APZelos/blamer.nvim'
-  },
+  'APZelos/blamer.nvim'
+},
   {
     'keith/swift.vim'
   },
