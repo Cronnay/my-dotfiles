@@ -46,16 +46,28 @@ vim.keymap.set("n", "L", ":bnext<CR>")
 -- }
 
 -- Use which-key to add extra bindings with the leader-key prefix
+
 -- lvim.builtin.which_key.mappings["P"] = { "<cmd>Telescope projects<CR>", "Projects" }
--- lvim.builtin.which_key.mappings["t"] = {
---   name = "+Trouble",
---   r = { "<cmd>Trouble lsp_references<cr>", "References" },
---   f = { "<cmd>Trouble lsp_definitions<cr>", "Definitions" },
---   d = { "<cmd>Trouble document_diagnostics<cr>", "Diagnostics" },
---   q = { "<cmd>Trouble quickfix<cr>", "QuickFix" },
---   l = { "<cmd>Trouble loclist<cr>", "LocationList" },
---   w = { "<cmd>Trouble workspace_diagnostics<cr>", "Wordspace Diagnostics" },
--- }
+lvim.builtin.which_key.mappings["t"] = {
+  name = "+Trouble",
+  r = { "<cmd>Trouble lsp_references<cr>", "References" },
+  f = { "<cmd>Trouble lsp_definitions<cr>", "Definitions" },
+  d = { "<cmd>Trouble document_diagnostics<cr>", "Diagnostics" },
+  q = { "<cmd>Trouble quickfix<cr>", "QuickFix" },
+  l = { "<cmd>Trouble loclist<cr>", "LocationList" },
+  w = { "<cmd>Trouble workspace_diagnostics<cr>", "Wordspace Diagnostics" },
+}
+
+lvim.builtin.which_key.mappings["F"] = {
+  name = "+Flutter",
+  c = { "<cmd>Telescope flutter commands<cr>", "Open Flutter Commans" },
+  d = { "<cmd>FlutterDevices<cr>", "Flutter Devices" },
+  e = { "<cmd>FlutterEmulators<cr>", "Flutter Emulators" },
+  r = { "<cmd>FlutterReload<cr>", "Hot Reload App" },
+  R = { "<cmd>FlutterRestart<cr>", "Hot Restart app" },
+  q = { "<cmd>FlutterQuit<cr>", "Quit running application" },
+  v = { "<cmd>Telescope flutter fvm<cr>", "Flutter version" },
+}
 
 -- TODO: User Config for predefined plugins
 -- After changing plugin config exit and reopen LunarVim, Run :PackerInstall :PackerCompile
@@ -88,6 +100,9 @@ lvim.builtin.treesitter.highlight.enabled = true
 -- generic LSP settings
 
 -- ---@usage disable automatic installation of servers
+-- lvim.lsp.installer.setup.ensure_installed = {
+--   "jsonls",
+-- }
 lvim.lsp.automatic_servers_installation = false
 
 -- ---configure a server manually. !!Requires `:LvimCacheReset` to take effect!!
@@ -114,18 +129,18 @@ lvim.lsp.automatic_servers_installation = false
 --   --Enable completion triggered by <c-x><c-o>
 --   buf_set_option("omnifunc", "v:lua.vim.lsp.omnifunc")
 -- end
-local lspconfig = require 'lspconfig'
-local root_pattern = lspconfig.util.root_pattern
+-- local lspconfig = require 'lspconfig'
+-- local root_pattern = lspconfig.util.root_pattern
 
-lspconfig.jdtls.setup {
-  root_dir = root_pattern(".git", "pom.xml"),
-}
+-- lspconfig.jdtls.setup {
+--   root_dir = root_pattern(".git", "pom.xml"),
+-- }
 
 -- -- set a formatter, this will override the language server formatting capabilities (if it exists)
-local formatters = require "lvim.lsp.null-ls.formatters"
-formatters.setup {
-  { command = "swiftformat", filetypes = { "swift" } },
-}
+-- local formatters = require "lvim.lsp.null-ls.formatters"
+-- formatters.setup {
+--   { command = "swiftformat", filetypes = { "swift" } },
+--[[ } ]]
 --   {
 --     -- each formatter accepts a list of options identical to https://github.com/jose-elias-alvarez/null-ls.nvim/blob/main/doc/BUILTINS.md#Configuration
 --     command = "prettier",
@@ -138,27 +153,29 @@ formatters.setup {
 -- }
 
 -- -- set additional linters
-local linters = require "lvim.lsp.null-ls.linters"
-linters.setup {
-  { command = "golangci-lint", filetypes = { "golang" }, extra_args = { "run" } },
-  --   { command = "flake8", filetypes = { "python" } },
-  --   {
-  --     -- each linter accepts a list of options identical to https://github.com/jose-elias-alvarez/null-ls.nvim/blob/main/doc/BUILTINS.md#Configuration
-  --     command = "shellcheck",
-  --     ---@usage arguments to pass to the formatter
-  --     -- these cannot contain whitespaces, options such as `--line-width 80` become either `{'--line-width', '80'}` or `{'--line-width=80'}`
-  --     extra_args = { "--severity", "warning" },
-  --   },
-  --   {
-  --     command = "codespell",
-  --     ---@usage specify which filetypes to enable. By default a providers will attach to all the filetypes it supports.
-  --     filetypes = { "javascript", "python" },
-  --   },
-}
+-- local linters = require "lvim.lsp.null-ls.linters"
+-- linters.setup {
+--   { command = "golangci-lint", filetypes = { "golang" }, extra_args = { "run" } },
+--   { command = "flake8", filetypes = { "python" } },
+--   {
+--     -- each linter accepts a list of options identical to https://github.com/jose-elias-alvarez/null-ls.nvim/blob/main/doc/BUILTINS.md#Configuration
+--     command = "shellcheck",
+--     ---@usage arguments to pass to the formatter
+--     -- these cannot contain whitespaces, options such as `--line-width 80` become either `{'--line-width', '80'}` or `{'--line-width=80'}`
+--     extra_args = { "--severity", "warning" },
+--   },
+--   {
+--     command = "codespell",
+--     ---@usage specify which filetypes to enable. By default a providers will attach to all the filetypes it supports.
+--     filetypes = { "javascript", "python" },
+--   },
+--[[ } ]]
 
--- Additional Plugins
+--local luasnip = require("luasnip")
+--luasnip.filetype_extend("dart", { "flutter" })
+
+-- Debuggers
 lvim.plugins = {
-  { "Mofiqul/vscode.nvim" },
   {
     "folke/trouble.nvim",
     cmd = "TroubleToggle",
@@ -182,9 +199,23 @@ lvim.plugins = {
   },
   {
     'mfussenegger/nvim-jdtls'
+  },
+  {
+    'github/copilot.vim'
+  },
+  {
+    'qaiviq/vim-imager'
+  },
+  {
+    'nvim-flutter/flutter-tools.nvim',
+    lazy = false,
+    dependencies = {
+      'nvim-lua/plenary.nvim',
+      'stevearc/dressing.nvim', -- optional for vim.ui.select
+    },
+    config = true,
   }
 }
-lvim.colorscheme = "vscode"
 vim.opt.nu = true
 vim.opt.relativenumber = true
 -- Autocommands (https://neovim.io/doc/user/autocmd.html)
