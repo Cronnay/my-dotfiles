@@ -1,14 +1,28 @@
 
 export KEYTIMEOUT=0.5 # ZSH VI Mode
-# set PATH so it includes user's private bin if it exists
-if [ -d "$HOME/bin" ] ; then
-  PATH="$HOME/bin:$PATH"
-fi
+
+path_prepend() {
+  if [ -d "$1" ] && case ":$PATH:" in *":$1:"*) false;; *) true;; esac; then
+    PATH="$1:$PATH"
+  fi
+}
+
+path_append() {
+  if [ -d "$1" ] && case ":$PATH:" in *":$1:"*) false;; *) true;; esac; then
+    PATH="$PATH:$1"
+  fi
+}
+
+# Homebrew on Apple Silicon installs CLIs such as lazygit here.
+path_prepend "/opt/homebrew/bin"
+path_prepend "/opt/homebrew/sbin"
+path_prepend "/usr/local/bin"
 
 # set PATH so it includes user's private bin if it exists
-if [ -d "$HOME/.local/bin" ] ; then
-  PATH="$HOME/.local/bin:$PATH"
-fi
+path_prepend "$HOME/bin"
+
+# set PATH so it includes user's private bin if it exists
+path_prepend "$HOME/.local/bin"
 
 if [ -f "$HOME/.aliases" ] ; then
   source $HOME/.aliases
@@ -18,17 +32,15 @@ if [ -f "$HOME/.aliases.local" ] ; then
   source $HOME/.aliases.local
 fi
 
-if [ -d "/usr/local/go" ] ; then
-  PATH="$PATH:/usr/local/go/bin"
-fi
+path_append "/usr/local/go/bin"
 
 # set PATH so it includes user's private go if it exists
 if [ -d "$HOME/go" ] ; then
   GOPATH="$HOME/go"
-  PATH="$PATH:$GOPATH/bin"
+  path_append "$GOPATH/bin"
 fi
 
 # RUST
-if [ -d "$HOME/.cargo" ] ; then
- PATH="$PATH:$HOME/.cargo/env"
+if [ -f "$HOME/.cargo/env" ] ; then
+  . "$HOME/.cargo/env"
 fi
