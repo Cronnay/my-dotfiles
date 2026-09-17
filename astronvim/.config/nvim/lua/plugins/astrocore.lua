@@ -63,6 +63,8 @@ return {
         H = { function() require("astrocore.buffer").nav(-vim.v.count1) end, desc = "Previous buffer" },
         L = { function() require("astrocore.buffer").nav(vim.v.count1) end, desc = "Next buffer" },
         ["<C-s>"] = { "<Cmd>w<CR>", desc = "Save file" },
+        ["<C-S-Left>"] = { function() require("smart-splits").resize_left() end, desc = "Resize split left" },
+        ["<C-S-Right>"] = { function() require("smart-splits").resize_right() end, desc = "Resize split right" },
         ["<Leader>fw"] = false,
         ["<Leader>fs"] = { function() require("snacks").picker.grep() end, desc = "Find words" },
 
