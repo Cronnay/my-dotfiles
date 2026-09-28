@@ -43,7 +43,41 @@ back to `~/.config/nvim`. Move the AstroNvim data, state, and cache directories
 aside, then restore `data/`, `state/`, and `cache/` to their original paths
 listed above.
 
+## .NET development
+
+[easy-dotnet.nvim](https://github.com/GustavEikaas/easy-dotnet.nvim) provides
+Roslyn language support, debugging, and a test runner. It uses the existing
+Snacks picker and nvim-dap integration.
+
+Install a .NET SDK and the companion server, with `dotnet` on your `PATH`:
+
+```sh
+dotnet tool install --global EasyDotnet
+```
+
+Restart Neovim and let Lazy install the plugin. Open Neovim in your solution
+directory, then use `:Dotnet` to browse commands. Use `:Dotnet _server update`
+to update the companion server when prompted.
+
+Press `Space D` for the .NET menu:
+
+| Key | Action |
+| --- | --- |
+| `Space D b` | Build a project and show errors in quickfix |
+| `Space D r` | Run a project with a launch profile |
+| `Space D d` | Debug a project with a launch profile |
+| `Space D T` | Toggle the test runner |
+| `Space D R` | Restore the solution |
+| `Space D s` | Edit user secrets |
+| `Space D a` | Add a NuGet package |
+| `Space D c` | Browse all .NET commands |
+
+In test buffers, `Space D t` runs the test under the cursor, `Space D f` runs
+the file's tests, and `Space D D` debugs the test under the cursor.
+`Space D e` shows build errors and `Space D p` previews a test stack trace.
+AstroNvim's `Space d` debugger menu and `Space e` file explorer remain available.
+
 ## Notes
 
 - `nvim/` and `lvim/` are historical editor configs and should be left intact.
-- This environment starts as a minimal editor baseline. Language-specific tooling can be added after the base setup is working.
+- Language tooling is configured in `astronvim/.config/nvim/lua/plugins/`.
