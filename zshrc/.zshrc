@@ -1,6 +1,6 @@
 
-source $HOME/.profile
-source ~/.aliases
+[[ -f "$HOME/.profile" ]] && source "$HOME/.profile"
+[[ -f "$HOME/.aliases" ]] && source "$HOME/.aliases"
 
 # Enable Powerlevel10k instant prompt. Should stay close to the top of ~/.zshrc.
 # Initialization code that may require console input (password prompts, [y/n]
@@ -15,10 +15,10 @@ HISTSIZE=100000
 SAVEHIST=5000
 
 # End of lines configured by zsh-newuser-install
-source "${HOME}/.zgen/zgen.zsh"
+[[ -f "${HOME}/.zgen/zgen.zsh" ]] && source "${HOME}/.zgen/zgen.zsh"
 
 # if the init scipt doesn't exist
-if ! zgen saved; then
+if command -v zgen >/dev/null 2>&1 && ! zgen saved; then
     echo "Creating a zgen save"
 
     zgen oh-my-zsh
@@ -58,7 +58,7 @@ export NVM_DIR="$HOME/.nvm"
 [ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
 
 ### MANAGED BY RANCHER DESKTOP START (DO NOT EDIT)
-export PATH="/Users/sebastian.berglonn/.rd/bin:$PATH"
+export PATH="$HOME/.rd/bin:$PATH"
 ### MANAGED BY RANCHER DESKTOP END (DO NOT EDIT)
 #THIS MUST BE AT THE END OF THE FILE FOR SDKMAN TO WORK!!!
 export SDKMAN_DIR="$HOME/.sdkman"

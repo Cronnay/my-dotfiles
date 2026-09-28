@@ -1,0 +1,11 @@
+brew "git"
+brew "stow"
+brew "tmux"
+brew "neovim"
+brew "ripgrep"
+brew "fd"
+brew "fzf"
+brew "lazygit"
+brew "tree-sitter-cli"
+
+cask "font-meslo-for-powerlevel10k"
